@@ -115,7 +115,8 @@ function AppContent() {
 }
 
 function ScreenTransition({ screen, children }) {
-	return <div key={screen} className="screen-transition" style={{ '--screen-duration': MOTION.screenDuration }}><ScreenLayout>{children}</ScreenLayout></div>
+	const layoutClass = screen === 'leitura' ? 'screen-layout-reading' : ''
+	return <div key={screen} className="screen-transition" style={{ '--screen-duration': MOTION.screenDuration }}><ScreenLayout className={layoutClass}>{children}</ScreenLayout></div>
 }
 
 function App() {

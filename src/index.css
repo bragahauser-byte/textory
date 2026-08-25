@@ -36,6 +36,7 @@ body {
 }
 
 .screen-layout > * { flex: 1 1 auto; min-height: 0; }
+.screen-layout-reading { padding: 0; }
 
 .screen-header-gap { margin-top: 24px; }
 .title-subtitle-gap { margin-top: 12px; }
