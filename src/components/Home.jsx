@@ -21,7 +21,7 @@ function Home({ items = [], onSettings, onAdd, onSelectReading }) {
           type="button"
           aria-label={t('home.settings')}
           onClick={onSettings}
-          className="top-control logical-end-4 absolute top-[var(--safe-top)] flex shrink-0 items-center justify-center rounded-full bg-[#f5f5f5] text-[#171717] transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
+          className="top-control logical-end-4 fixed top-[var(--safe-top)] flex shrink-0 items-center justify-center rounded-full bg-[#f5f5f5] text-[#171717] transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"
         >
           <Settings strokeWidth={2.5} size={24} aria-hidden="true" />
         </button>
