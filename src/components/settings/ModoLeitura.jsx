@@ -9,7 +9,7 @@ function ModoLeitura({ onBack }) {
   const { readingMode, updateSetting, fontFamily, fontSize, lineHeight, letterSpacing } = useSettings()
   const colors = READING_MODES[readingMode]
   const { t } = useLocale()
-  return <main className="screen-shell min-h-screen bg-white text-[#202020]"><SettingsHeader title={t('settings.readingMode')} onBack={onBack} /><div className="screen-header-gap">{modes.map((key) => <OptionRow key={key} selected={readingMode === key} onClick={() => updateSetting('readingMode', key)}>{t(`settings.modes.${key}`)}</OptionRow>)}</div><div key={readingMode} className="reading-preview content-enter title-subtitle-gap h-[250px] overflow-hidden rounded-xl p-3" style={{ background: colors.background, color: colors.primary, fontFamily, fontSize: `${Math.min(fontSize, 24)}px`, lineHeight: `${lineHeight}px`, letterSpacing }}>{t('preview')}</div></main>
+  return <main className="bg-white text-[#202020]"><SettingsHeader title={t('settings.readingMode')} onBack={onBack} /><div className="screen-header-gap">{modes.map((key) => <OptionRow key={key} selected={readingMode === key} onClick={() => updateSetting('readingMode', key)}>{t(`settings.modes.${key}`)}</OptionRow>)}</div><div key={readingMode} className="reading-preview content-enter title-subtitle-gap h-[250px] overflow-hidden rounded-xl p-3" style={{ background: colors.background, color: colors.primary, fontFamily, fontSize: `${Math.min(fontSize, 24)}px`, lineHeight: `${lineHeight}px`, letterSpacing }}>{t('preview')}</div></main>
 }
 
 export default ModoLeitura

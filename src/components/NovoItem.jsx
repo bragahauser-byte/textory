@@ -102,7 +102,7 @@ function NovoItem({ initialText = '', onBack, onTransform }) {
   }
 
   return (
-    <main className="screen-shell relative flex min-h-screen flex-col bg-white text-[#111111]">
+    <main className="relative flex flex-col bg-white text-[#111111]">
       <header className="flex items-start justify-between">
         <button
           type="button"

@@ -59,7 +59,7 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
 
   return (
     <main
-      className="relative min-h-screen overflow-hidden"
+      className="relative overflow-hidden"
       style={{ backgroundColor: settings.colors.background, color: settings.colors.primary }}
       dir={rtl ? 'rtl' : 'ltr'}
       onClick={handleTap}

@@ -17,6 +17,7 @@ import { useSettings } from './context/useSettings.js'
 import { useLocale } from './context/useLocale.js'
 import { normalizeContent, paginateContent } from './utils/pagination.js'
 import { MOTION } from './utils/motion.js'
+import ScreenLayout from './components/layout/ScreenLayout.jsx'
 import { LocaleProvider } from './context/LocaleContext.jsx'
 
 const readingContent = [
@@ -114,7 +115,7 @@ function AppContent() {
 }
 
 function ScreenTransition({ screen, children }) {
-	return <div key={screen} className="screen-transition min-h-screen" style={{ '--screen-duration': MOTION.screenDuration }}>{children}</div>
+	return <div key={screen} className="screen-transition" style={{ '--screen-duration': MOTION.screenDuration }}><ScreenLayout>{children}</ScreenLayout></div>
 }
 
 function App() {

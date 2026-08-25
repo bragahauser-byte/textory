@@ -6,7 +6,7 @@ function Home({ items = [], onSettings, onAdd, onSelectReading }) {
   const { t, direction } = useLocale()
 
   return (
-    <main className="screen-shell relative flex min-h-screen flex-col overflow-hidden bg-white text-[#111111]">
+    <main className="relative flex flex-col overflow-hidden bg-white text-[#111111]">
       <header className="flex items-start justify-between">
         <div>
           <h1 className="type-title m-0 font-bold leading-[1.05]">
