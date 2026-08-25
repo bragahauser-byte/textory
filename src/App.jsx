@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Configuracoes from './components/settings/Configuracoes.jsx'
 import EspacoLinhas from './components/settings/EspacoLinhas.jsx'
 import EstiloTexto from './components/settings/EstiloTexto.jsx'
@@ -14,8 +14,10 @@ import { SettingsProvider } from './context/SettingsContext.jsx'
 import { LibraryProvider } from './context/LibraryContext.jsx'
 import { useLibrary } from './context/useLibrary.js'
 import { useSettings } from './context/useSettings.js'
+import { useLocale } from './context/useLocale.js'
 import { normalizeContent, paginateContent } from './utils/pagination.js'
 import { MOTION } from './utils/motion.js'
+import { LocaleProvider } from './context/LocaleContext.jsx'
 
 const readingContent = [
 	'Naquela manhã, a cidade parecia ter acordado antes de todos nós. As ruas ainda estavam úmidas da chuva da noite anterior, e as primeiras pessoas caminhavam apressadas pelas calçadas, carregando cafés, mochilas e pensamentos que pareciam pesar mais do que deveriam.',
@@ -31,17 +33,18 @@ function AppContent() {
 	const [editingReading, setEditingReading] = useState(null)
 	const [activeReading, setActiveReading] = useState(null)
 	const { readings, addReading, updateReading, removeReading } = useLibrary()
-	const { fontFamily, fontSize, lineHeight } = useSettings()
+	const { fontFamily, fontSize, lineHeight, letterSpacing } = useSettings()
+	const { t } = useLocale()
 
-	function getTitle(content, file) {
+	const getTitle = useCallback((content, file) => {
 		if (file && !String(content ?? '').trim()) return file.name.replace(/\.[^.]+$/, '')
 		const text = normalizeContent(content).join('\n')
 		const firstLine = text.split('\n')[0]?.trim()
 		if (firstLine && firstLine.length <= 60 && (!/[.!?]$/.test(firstLine) || firstLine === firstLine.toUpperCase())) return firstLine
 		const words = text.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean)
 		if (words.length) return `${words.slice(0, 8).join(' ')}${words.length > 8 ? '...' : ''}`
-		return file?.name?.replace(/\.[^.]+$/, '') || 'Nova leitura'
-	}
+		return file?.name?.replace(/\.[^.]+$/, '') || t('itemReady.newReading')
+	}, [t])
 
 	function deleteReading(id) {
 		if (!id) return
@@ -55,19 +58,19 @@ function AppContent() {
 
 		const timer = setTimeout(() => {
 			const reading = pendingReading ?? {}
-			const content = reading.text?.trim() ? reading.text : reading.file ? [`Conteúdo importado de ${reading.file.name}.`] : readingContent
+			const content = reading.text?.trim() ? reading.text : reading.file ? [t('newItem.importedContent', { name: reading.file.name })] : readingContent
 			const title = getTitle(content, reading.file)
 			const words = normalizeContent(content).join(' ').trim().split(/\s+/).filter(Boolean).length
 			const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
-			const sections = paginateContent(content, { title: 'CAPITULO UM', fontFamily, fontSize, lineHeight, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
-			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} min`, sections, content }
+			const sections = paginateContent(content, { title: t('reading.title'), fontFamily, fontSize, lineHeight, letterSpacing, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
+			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} ${t('common.minute')}`, sections, content }
 			const savedReading = reading.id ? updateReading(reading.id, readingData) : addReading(readingData)
 			setActiveReading(savedReading)
 			setEditingReading(null)
 			setScreen('item-pronto')
 		}, 2000)
 		return () => clearTimeout(timer)
-	}, [screen, pendingReading, addReading, updateReading, fontFamily, fontSize, lineHeight])
+	}, [screen, pendingReading, addReading, updateReading, getTitle, t, fontFamily, fontSize, lineHeight, letterSpacing])
 
 	if (screen === 'novo-item') {
 		return <ScreenTransition screen={screen}><NovoItem initialText={editingReading ? normalizeContent(editingReading.content).join('\n\n') : ''} onBack={() => { setEditingReading(null); setScreen(editingReading ? 'item-pronto' : 'home') }} onTransform={(reading) => { setPendingReading({ ...reading, id: editingReading?.id }); setScreen('loading') }} /></ScreenTransition>
@@ -78,8 +81,8 @@ function AppContent() {
 	if (screen === 'item-pronto') {
 		return <ScreenTransition screen={screen}>
 			<ItemPronto
-				title={activeReading?.title ?? 'Depois da Chuva'}
-				subtitle={`${activeReading?.duration ?? '1 min'} · ${activeReading?.sections ?? 1} ${activeReading?.sections === 1 ? 'seção' : 'seções'}`}
+				title={activeReading?.title ?? t('itemReady.defaultTitle')}
+				subtitle={`${activeReading?.duration ?? `1 ${t('common.minute')}`} · ${activeReading?.sections ?? 1} ${activeReading?.sections === 1 ? t('home.sectionOne') : t('home.sectionMany')}`}
 				onClose={() => setScreen('home')}
 				onDelete={() => deleteReading(activeReading?.id)}
 				onEdit={() => { setEditingReading(activeReading); setScreen('novo-item') }}
@@ -90,7 +93,7 @@ function AppContent() {
 
 	if (screen === 'leitura') {
 		const reading = activeReading ?? readings[0]
-		return <ScreenTransition screen={screen}><Leitura content={reading?.content ?? readingContent} title="CAPITULO UM" onClose={() => setScreen('home')} onDelete={() => deleteReading(reading?.id)} onSettings={() => { setSettingsReturn('leitura'); setScreen('configuracoes') }} /></ScreenTransition>
+		return <ScreenTransition screen={screen}><Leitura content={reading?.content ?? readingContent} title={t('reading.title')} onClose={() => setScreen('home')} onDelete={() => deleteReading(reading?.id)} onSettings={() => { setSettingsReturn('leitura'); setScreen('configuracoes') }} /></ScreenTransition>
 	}
 
 	if (screen === 'configuracoes') {
@@ -115,7 +118,7 @@ function ScreenTransition({ screen, children }) {
 }
 
 function App() {
-	return <SettingsProvider><LibraryProvider><AppContent /></LibraryProvider></SettingsProvider>
+	return <SettingsProvider><LocaleProvider><LibraryProvider><AppContent /></LibraryProvider></LocaleProvider></SettingsProvider>
 }
 
 export default App

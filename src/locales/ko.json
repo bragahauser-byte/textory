@@ -1,0 +1,11 @@
+{
+  "home": { "title": "라이브러리", "subtitle": "읽은 글이 여기에 표시됩니다", "settings": "설정 열기", "add": "읽기 추가", "sectionOne": "섹션", "sectionMany": "섹션" }, "common": { "minute": "분" },
+  "newItem": { "back": "라이브러리로 돌아가기", "settings": "설정 열기", "title": "새 텍스트", "subtitle": "텍스트를 붙여넣거나 파일을 가져와 시작하세요", "placeholder": "여기에 텍스트를 붙여넣으세요", "loading": "파일을 읽는 중…", "txt": "텍스트(.txt)", "pdf": "PDF", "docx": "Word(.docx)", "chooseAnother": "다른 파일 선택", "transform": "읽기 자료로 변환", "importedContent": "{name}에서 가져온 콘텐츠입니다." },
+  "itemReady": { "close": "항목 닫기", "delete": "읽기 삭제", "edit": "읽기 편집", "read": "읽기", "defaultTitle": "비 온 뒤", "newReading": "새 읽기" },
+  "reading": { "title": "제1장", "close": "읽기 닫기", "delete": "읽기 삭제", "settings": "설정 열기" },
+  "loading": { "label": "읽기 자료를 만드는 중" },
+  "delete": { "title": "이 텍스트를 삭제할까요?", "description": "이 텍스트는 영구적으로 삭제되며 복구할 수 없습니다.", "cancel": "취소", "confirm": "삭제" },
+  "settings": { "back": "뒤로", "language": "언어", "textSize": "텍스트 크기", "textStyle": "텍스트 스타일", "lineSpacing": "줄 간격", "readingMode": "읽기 모드", "languages": { "portugues": "포르투갈어", "ingles": "영어", "espanhol": "스페인어", "frances": "프랑스어", "arabe": "아랍어", "chines": "중국어", "japones": "일본어", "alemao": "독일어", "coreano": "한국어" }, "sizes": ["작게", "중간", "보통", "크게", "아주 크게"], "styles": { "classico": "클래식", "moderno": "모던", "editorial": "에디토리얼", "confortavel": "편안하게", "sans": "고딕", "serif": "명조" }, "spacing": ["좁게", "보통", "편안하게"], "modes": { "claro": "밝게", "papel": "종이", "suave": "부드럽게", "escuro": "어둡게" } },
+  "errors": { "txtRead": "텍스트 파일을 읽을 수 없습니다.", "pdfExtract": "이 PDF에서 텍스트를 추출할 수 없습니다. 암호로 보호되었거나 글자가 없는 스캔 이미지일 수 있습니다.", "docxRead": ".docx 파일에서 텍스트를 찾을 수 없습니다.", "invalidType": "이 파일은 유효한 {type} 파일이 아닙니다. 다른 파일을 선택하세요", "tooLarge": "파일이 20MB 제한을 초과했습니다. 더 작은 파일을 선택하세요", "generic": "파일을 읽을 수 없습니다. 다른 파일을 선택해 다시 시도하세요." },
+  "preview": "그날 아침, 도시는 우리 모두보다 먼저 깨어난 듯했습니다. 거리는 전날 밤 내린 비로 아직 젖어 있었고, 사람들은 인도를 바쁘게 오갔습니다."
+}

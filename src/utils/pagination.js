@@ -3,12 +3,12 @@ export function normalizeContent(content) {
   return String(content ?? '').split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean)
 }
 
-export function paginateContent(content, { title = '', fontFamily, fontSize, lineHeight, width, height, contentTop = 132 } = {}) {
+export function paginateContent(content, { title = '', fontFamily, fontSize, lineHeight, letterSpacing = '0px', width, height, contentTop = 132 } = {}) {
   const paragraphs = normalizeContent(content)
   if (typeof document === 'undefined') return [paragraphs.map((_, index) => index)]
   const measure = document.createElement('div')
   measure.style.cssText = `position:absolute;left:-99999px;width:${width ?? Math.max(window.innerWidth - 64, 1)}px;visibility:hidden;`
-  const style = `font-family:${fontFamily};font-size:${fontSize}px;font-weight:500;line-height:${lineHeight}px;letter-spacing:0px;`
+  const style = `font-family:${fontFamily};font-size:${fontSize}px;font-weight:500;line-height:${lineHeight}px;letter-spacing:${letterSpacing};`
   if (title) {
     const titleNode = document.createElement('h1')
     titleNode.textContent = title

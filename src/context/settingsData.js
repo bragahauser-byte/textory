@@ -13,6 +13,44 @@ export const TEXT_FONTS = {
   confortavel: 'Literata, serif',
 }
 
+export const FONT_GROUPS = {
+  latino: {
+    styles: ['classico', 'moderno', 'editorial', 'confortavel'],
+    fonts: TEXT_FONTS,
+    lineHeightMultiplier: 1,
+    letterSpacing: '0px',
+  },
+  arabe: {
+    styles: ['classico', 'moderno', 'editorial', 'confortavel'],
+    fonts: { classico: 'Amiri, serif', moderno: 'Cairo, sans-serif', editorial: 'Tajawal, sans-serif', confortavel: '"Noto Naskh Arabic", serif' },
+    lineHeightMultiplier: 1.18,
+    letterSpacing: '0px',
+  },
+  chines: {
+    styles: ['sans', 'serif'],
+    fonts: { sans: '"Noto Sans SC", sans-serif', serif: '"Noto Serif SC", serif' },
+    lineHeightMultiplier: 1.45,
+    letterSpacing: '0.03em',
+  },
+  japones: {
+    styles: ['sans', 'serif'],
+    fonts: { sans: '"Noto Sans JP", sans-serif', serif: '"Noto Serif JP", serif' },
+    lineHeightMultiplier: 1.45,
+    letterSpacing: '0.03em',
+  },
+  coreano: {
+    styles: ['sans', 'serif'],
+    fonts: { sans: '"Noto Sans KR", sans-serif', serif: '"Noto Serif KR", serif' },
+    lineHeightMultiplier: 1.45,
+    letterSpacing: '0.03em',
+  },
+}
+
+export const LANGUAGE_FONT_GROUP = {
+  portugues: 'latino', ingles: 'latino', espanhol: 'latino', frances: 'latino', alemao: 'latino',
+  arabe: 'arabe', chines: 'chines', japones: 'japones', coreano: 'coreano',
+}
+
 export const READING_MODES = {
   claro: { background: '#F5F5F5', primary: '#292929', secondary: '#555555' },
   papel: { background: '#F4EEDC', primary: '#342D23', secondary: '#665B4A' },

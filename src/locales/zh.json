@@ -1,0 +1,11 @@
+{
+  "home": { "title": "书库", "subtitle": "你的阅读内容会显示在这里", "settings": "打开设置", "add": "添加阅读", "sectionOne": "个部分", "sectionMany": "个部分" }, "common": { "minute": "分钟" },
+  "newItem": { "back": "返回书库", "settings": "打开设置", "title": "新文本", "subtitle": "粘贴文本或导入文件即可开始", "placeholder": "在此粘贴文本", "loading": "正在读取文件…", "txt": "文本（.txt）", "pdf": "PDF", "docx": "Word（.docx）", "chooseAnother": "选择其他文件", "transform": "生成阅读", "importedContent": "导入自 {name} 的内容。" },
+  "itemReady": { "close": "关闭条目", "delete": "删除阅读", "edit": "编辑阅读", "read": "阅读", "defaultTitle": "雨后", "newReading": "新阅读" },
+  "reading": { "title": "第一章", "close": "关闭阅读", "delete": "删除阅读", "settings": "打开设置" },
+  "loading": { "label": "正在生成阅读" },
+  "delete": { "title": "删除这段文本？", "description": "文本将被永久删除，无法恢复。", "cancel": "取消", "confirm": "删除" },
+  "settings": { "back": "返回", "language": "语言", "textSize": "文字大小", "textStyle": "文字样式", "lineSpacing": "行距", "readingMode": "阅读模式", "languages": { "portugues": "葡萄牙语", "ingles": "英语", "espanhol": "西班牙语", "frances": "法语", "arabe": "阿拉伯语", "chines": "中文", "japones": "日语", "alemao": "德语", "coreano": "韩语" }, "sizes": ["小", "中", "标准", "大", "特大"], "styles": { "classico": "经典", "moderno": "现代", "editorial": "编辑", "confortavel": "舒适", "sans": "无衬线", "serif": "衬线" }, "spacing": ["紧凑", "标准", "舒适"], "modes": { "claro": "浅色", "papel": "纸张", "suave": "柔和", "escuro": "深色" } },
+  "errors": { "txtRead": "无法读取此文本文件。", "pdfExtract": "无法从此 PDF 提取文字，它可能受密码保护，或是没有可选文字的扫描图片。", "docxRead": "此 .docx 文件中没有找到文字。", "invalidType": "此文件不是有效的 {type} 文件，请选择其他文件", "tooLarge": "文件超过 20MB 限制，请选择较小的文件", "generic": "无法读取此文件，请选择其他文件后重试。" },
+  "preview": "那天早上，这座城市仿佛比我们所有人都醒得更早。街道还留着昨夜的雨水，最初的人们匆匆走过人行道。"
+}
