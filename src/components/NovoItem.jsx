@@ -1,8 +1,8 @@
 import { ArrowLeft, FileText, FileType2, Settings } from 'lucide-react'
 import { useState } from 'react'
 
-function NovoItem({ onBack, onTransform }) {
-  const [text, setText] = useState('')
+function NovoItem({ initialText = '', onBack, onTransform }) {
+  const [text, setText] = useState(initialText)
   const [selectedFile, setSelectedFile] = useState(null)
   const hasContent = text.trim().length > 0 || selectedFile !== null
 

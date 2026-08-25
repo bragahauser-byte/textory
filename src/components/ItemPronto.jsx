@@ -1,8 +1,8 @@
-import { Settings, Trash2, X } from 'lucide-react'
+import { Pencil, Trash2, X } from 'lucide-react'
 import { useState } from 'react'
 import ConfirmDelete from './ConfirmDelete.jsx'
 
-function ItemPronto({ title, subtitle, onRead, onClose, onDelete }) {
+function ItemPronto({ title, subtitle, onRead, onClose, onDelete, onEdit }) {
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   return (
@@ -16,7 +16,7 @@ function ItemPronto({ title, subtitle, onRead, onClose, onDelete }) {
         >
           <X size={24} strokeWidth={2.3} aria-hidden="true" />
         </button>
-        <div className="flex gap-3"><button type="button" aria-label="Excluir leitura" onClick={() => setDeleteOpen(true)} className="top-control flex items-center justify-center rounded-full bg-[#FFC3C4] text-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]"><Trash2 size={24} strokeWidth={2.3} aria-hidden="true" /></button><button type="button" aria-label="Abrir configurações" className="top-control flex items-center justify-center rounded-full bg-[#f5f5f5]"><Settings size={24} strokeWidth={2.5} aria-hidden="true" /></button></div>
+        <div className="flex gap-3"><button type="button" aria-label="Excluir leitura" onClick={() => setDeleteOpen(true)} className="top-control flex items-center justify-center rounded-full bg-[#FFC3C4] text-[#ef233c] focus:outline-none focus:ring-2 focus:ring-[#ef233c]"><Trash2 size={24} strokeWidth={2.3} aria-hidden="true" /></button><button type="button" aria-label="Editar leitura" onClick={onEdit} className="top-control flex items-center justify-center rounded-full bg-[#f5f5f5] focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-4"><Pencil size={24} strokeWidth={2.5} aria-hidden="true" /></button></div>
       </header>
 
       <section className="screen-header-gap">

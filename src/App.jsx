@@ -28,8 +28,9 @@ function AppContent() {
 	const [screen, setScreen] = useState('home')
 	const [settingsReturn, setSettingsReturn] = useState('home')
 	const [pendingReading, setPendingReading] = useState(null)
+	const [editingReading, setEditingReading] = useState(null)
 	const [activeReading, setActiveReading] = useState(null)
-	const { readings, addReading, removeReading } = useLibrary()
+	const { readings, addReading, updateReading, removeReading } = useLibrary()
 	const { fontFamily, fontSize, lineHeight } = useSettings()
 
 	function getTitle(content, file) {
@@ -59,15 +60,17 @@ function AppContent() {
 			const words = normalizeContent(content).join(' ').trim().split(/\s+/).filter(Boolean).length
 			const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
 			const sections = paginateContent(content, { title: 'CAPITULO UM', fontFamily, fontSize, lineHeight, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
-			const savedReading = addReading({ title, duration: `${Math.max(1, Math.ceil(words / 238))} min`, sections, content })
+			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} min`, sections, content }
+			const savedReading = reading.id ? updateReading(reading.id, readingData) : addReading(readingData)
 			setActiveReading(savedReading)
+			setEditingReading(null)
 			setScreen('item-pronto')
 		}, 2000)
 		return () => clearTimeout(timer)
-	}, [screen, pendingReading, addReading, fontFamily, fontSize, lineHeight])
+	}, [screen, pendingReading, addReading, updateReading, fontFamily, fontSize, lineHeight])
 
 	if (screen === 'novo-item') {
-		return <ScreenTransition screen={screen}><NovoItem onBack={() => setScreen('home')} onTransform={(reading) => { setPendingReading(reading); setScreen('loading') }} /></ScreenTransition>
+		return <ScreenTransition screen={screen}><NovoItem initialText={editingReading ? normalizeContent(editingReading.content).join('\n\n') : ''} onBack={() => { setEditingReading(null); setScreen(editingReading ? 'item-pronto' : 'home') }} onTransform={(reading) => { setPendingReading({ ...reading, id: editingReading?.id }); setScreen('loading') }} /></ScreenTransition>
 	}
 
 	if (screen === 'loading') return <ScreenTransition screen={screen}><Loading /></ScreenTransition>
@@ -79,6 +82,7 @@ function AppContent() {
 				subtitle={`${activeReading?.duration ?? '1 min'} · ${activeReading?.sections ?? 1} ${activeReading?.sections === 1 ? 'seção' : 'seções'}`}
 				onClose={() => setScreen('home')}
 				onDelete={() => deleteReading(activeReading?.id)}
+				onEdit={() => { setEditingReading(activeReading); setScreen('novo-item') }}
 				onRead={() => { setActiveReading(activeReading); setScreen('leitura') }}
 			/>
 		</ScreenTransition>
@@ -103,7 +107,7 @@ function AppContent() {
 	const SettingsScreen = subScreens[screen.replace('settings-', '')]
 	if (SettingsScreen) return <ScreenTransition screen={screen}><SettingsScreen onBack={() => setScreen('configuracoes')} /></ScreenTransition>
 
-	return <ScreenTransition screen={screen}><Home items={readings} onSelectReading={(reading) => { setActiveReading(reading); setScreen('leitura') }} onAdd={() => setScreen('novo-item')} onSettings={() => { setSettingsReturn('home'); setScreen('configuracoes') }} /></ScreenTransition>
+	return <ScreenTransition screen={screen}><Home items={readings} onSelectReading={(reading) => { setActiveReading(reading); setScreen('item-pronto') }} onAdd={() => { setEditingReading(null); setScreen('novo-item') }} onSettings={() => { setSettingsReturn('home'); setScreen('configuracoes') }} /></ScreenTransition>
 }
 
 function ScreenTransition({ screen, children }) {

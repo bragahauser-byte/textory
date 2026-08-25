@@ -33,6 +33,15 @@ export function LibraryProvider({ children }) {
     return newReading
   }, [])
 
+  const updateReading = useCallback((id, reading) => {
+    const updatedReading = { ...reading, id }
+    setReadings((current) => current.map((item) => {
+      if (item.id !== id) return item
+      return { ...item, ...updatedReading }
+    }))
+    return updatedReading
+  }, [])
+
   const getReading = useCallback((id) => {
     return readings.find((reading) => reading.id === id)
   }, [readings])
@@ -41,6 +50,6 @@ export function LibraryProvider({ children }) {
     setReadings((current) => current.filter((reading) => reading.id !== id))
   }, [])
 
-  const value = useMemo(() => ({ readings, addReading, getReading, removeReading }), [readings, addReading, getReading, removeReading])
+  const value = useMemo(() => ({ readings, addReading, updateReading, getReading, removeReading }), [readings, addReading, updateReading, getReading, removeReading])
   return <LibraryContext.Provider value={value}>{children}</LibraryContext.Provider>
 }
