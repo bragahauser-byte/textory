@@ -57,7 +57,8 @@ function AppContent() {
 			const content = reading.text?.trim() ? reading.text : reading.file ? [`Conteúdo importado de ${reading.file.name}.`] : readingContent
 			const title = getTitle(content, reading.file)
 			const words = normalizeContent(content).join(' ').trim().split(/\s+/).filter(Boolean).length
-			const sections = paginateContent(content, { title: 'CAPITULO UM', fontFamily, fontSize, lineHeight, width: window.innerWidth - 32 }).length
+			const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
+			const sections = paginateContent(content, { title: 'CAPITULO UM', fontFamily, fontSize, lineHeight, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
 			const savedReading = addReading({ title, duration: `${Math.max(1, Math.ceil(words / 238))} min`, sections, content })
 			setActiveReading(savedReading)
 			setScreen('item-pronto')

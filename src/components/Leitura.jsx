@@ -22,12 +22,14 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
 
   useEffect(() => {
     function paginate() {
+      const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
       const result = paginateContent(paragraphs, {
         title,
         fontFamily: settings.fontFamily,
         fontSize: settings.fontSize,
         lineHeight: settings.lineHeight,
         width: window.innerWidth - 32,
+        contentTop: safeTop + 68,
       })
       setPages(result.length ? result : [[]])
       setPage((currentPage) => Math.min(currentPage, Math.max(result.length - 1, 0)))
@@ -68,11 +70,11 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
         </div>
       </div>
 
-      <span className={`page-indicator absolute right-4 top-16 text-[11px] leading-none ${controlsVisible ? 'is-hidden' : ''}`} style={{ color: settings.colors.secondary }}>
+      <span className={`page-indicator absolute right-4 top-[var(--safe-top)] text-[11px] leading-none ${controlsVisible ? 'is-hidden' : ''}`} style={{ color: settings.colors.secondary }}>
         {String(page + 1).padStart(2, '0')}
       </span>
 
-      <div className={`controls-transition absolute inset-x-0 top-16 flex items-center justify-between px-4 ${controlsVisible ? 'translate-y-0 opacity-100' : 'is-hidden pointer-events-none -translate-y-2 opacity-0'}`}>
+      <div className={`controls-transition absolute inset-x-0 top-[var(--safe-top)] flex items-center justify-between px-4 ${controlsVisible ? 'translate-y-0 opacity-100' : 'is-hidden pointer-events-none -translate-y-2 opacity-0'}`}>
         <button type="button" aria-label="Fechar leitura" onClick={(event) => { event.stopPropagation(); onClose?.() }} className="top-control flex items-center justify-center rounded-full bg-white text-[#292929] shadow-sm focus:outline-none focus:ring-2 focus:ring-black">
           <X size={24} strokeWidth={2.2} aria-hidden="true" />
         </button>

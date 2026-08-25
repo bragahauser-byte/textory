@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 :root {
+  --safe-top: max(64px, env(safe-area-inset-top, 0px));
   font-family: Arial, Helvetica, sans-serif;
   color: #101010;
   background: #ffffff;
@@ -25,7 +26,7 @@ body {
   overflow: hidden;
   padding-left: 16px;
   padding-right: 16px;
-  padding-top: 64px;
+  padding-top: var(--safe-top);
   padding-bottom: 40px;
 }
 
@@ -33,7 +34,7 @@ body {
 .title-subtitle-gap { margin-top: 12px; }
 .reading-preview { color: #292929; }
 .card-subtitle-gap { margin-top: 8px; }
-.chapter-content { top: 132px; }
+.chapter-content { top: calc(var(--safe-top, 64px) + 68px); }
 .chapter-paragraph-gap { margin-top: 32px; }
 .type-title { font-size: 28px; }
 .type-subtitle { font-size: 16px; }

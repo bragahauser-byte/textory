@@ -3,7 +3,7 @@ export function normalizeContent(content) {
   return String(content ?? '').split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean)
 }
 
-export function paginateContent(content, { title = '', fontFamily, fontSize, lineHeight, width, height } = {}) {
+export function paginateContent(content, { title = '', fontFamily, fontSize, lineHeight, width, height, contentTop = 132 } = {}) {
   const paragraphs = normalizeContent(content)
   if (typeof document === 'undefined') return [paragraphs.map((_, index) => index)]
   const measure = document.createElement('div')
@@ -23,7 +23,7 @@ export function paginateContent(content, { title = '', fontFamily, fontSize, lin
     return node
   })
   document.body.append(measure)
-  const availableHeight = Math.max(0, (height ?? window.innerHeight) - 132 - 40)
+  const availableHeight = Math.max(0, (height ?? window.innerHeight) - contentTop - 40)
   const titleNode = measure.querySelector('h1')
   const titleOffset = titleNode ? titleNode.getBoundingClientRect().height + 32 : 0
   const pages = []
