@@ -33,7 +33,7 @@ function AppContent() {
 	const [pendingReading, setPendingReading] = useState(null)
 	const [editingReading, setEditingReading] = useState(null)
 	const [activeReading, setActiveReading] = useState(null)
-	const { readings, addReading, updateReading, removeReading } = useLibrary()
+	const { readings, addReading, updateReading, updateLastPage, removeReading } = useLibrary()
 	const { fontFamily, fontSize, lineHeight, letterSpacing } = useSettings()
 	const { t } = useLocale()
 
@@ -64,7 +64,7 @@ function AppContent() {
 			const words = normalizeContent(content).join(' ').trim().split(/\s+/).filter(Boolean).length
 			const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
 			const sections = paginateContent(content, { title: t('reading.title'), fontFamily, fontSize, lineHeight, letterSpacing, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
-			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} ${t('common.minute')}`, sections, content }
+			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} ${t('common.minute')}`, sections, content, lastPageIndex: 0 }
 			const savedReading = reading.id ? updateReading(reading.id, readingData) : addReading(readingData)
 			setActiveReading(savedReading)
 			setEditingReading(null)
@@ -94,7 +94,7 @@ function AppContent() {
 
 	if (screen === 'leitura') {
 		const reading = activeReading ?? readings[0]
-		return <ScreenTransition screen={screen}><Leitura content={reading?.content ?? readingContent} title={t('reading.title')} onClose={() => setScreen('home')} onDelete={() => deleteReading(reading?.id)} onSettings={() => { setSettingsReturn('leitura'); setScreen('configuracoes') }} /></ScreenTransition>
+		return <ScreenTransition screen={screen}><Leitura content={reading?.content ?? readingContent} title={t('reading.title')} initialPageIndex={reading?.lastPageIndex ?? 0} onPageChange={(pageIndex) => updateLastPage(reading?.id, pageIndex)} onClose={() => setScreen('home')} onDelete={() => deleteReading(reading?.id)} onSettings={() => { setSettingsReturn('leitura'); setScreen('configuracoes') }} /></ScreenTransition>
 	}
 
 	if (screen === 'configuracoes') {

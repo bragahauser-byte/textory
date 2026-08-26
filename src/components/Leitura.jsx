@@ -5,7 +5,7 @@ import { normalizeContent, paginateContent } from '../utils/pagination.js'
 import ConfirmDelete from './ConfirmDelete.jsx'
 import { useLocale } from '../context/useLocale.js'
 
-function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete }) {
+function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageChange, onClose, onSettings, onDelete }) {
   const settings = useSettings()
   const { t } = useLocale()
   const readingStyle = {
@@ -18,7 +18,7 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
   const rtl = isRTL || settings.language === 'arabe'
   const paragraphs = useMemo(() => normalizeContent(content), [content])
   const [pages, setPages] = useState([])
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(initialPageIndex)
   const [controlsVisible, setControlsVisible] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
@@ -52,7 +52,10 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
     }
 
     const movesForward = rtl ? position < 1 / 3 : position > 2 / 3
-    setPage((currentPage) => Math.max(0, Math.min(pages.length - 1, currentPage + (movesForward ? 1 : -1))))
+    const nextPage = Math.max(0, Math.min(pages.length - 1, page + (movesForward ? 1 : -1)))
+    if (nextPage === page) return
+    setPage(nextPage)
+    onPageChange?.(nextPage)
   }
 
   const currentPage = pages[page] ?? []
@@ -65,7 +68,7 @@ function Leitura({ content, title, isRTL = false, onClose, onSettings, onDelete 
       onClick={handleTap}
     >
       <div key={page} className="page-crossfade chapter-content absolute inset-x-4" style={readingStyle}>
-        {page === 0 && title && <h1 className="m-0 uppercase" style={{ ...readingStyle, color: '#1A1A1A' }}>{title}</h1>}
+        {page === 0 && title && <h1 className="m-0 uppercase" style={{ ...readingStyle, color: settings.readingMode === 'escuro' ? '#FFFFFF' : '#1A1A1A' }}>{title}</h1>}
         <div className={page === 0 && title ? 'chapter-paragraph-gap' : ''}>
           {currentPage.map((paragraphIndex) => (
             <p key={`${page}-${paragraphIndex}`} className={`crossfade ${paragraphIndex !== currentPage[0] ? 'mt-6' : ''}`}>{paragraphs[paragraphIndex]}</p>
