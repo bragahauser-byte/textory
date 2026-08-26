@@ -23,6 +23,23 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   useEffect(() => {
+    const root = document.getElementById('root')
+    const themeMeta = document.querySelector('meta[name="theme-color"]')
+    const background = settings.colors.background
+    document.documentElement.style.backgroundColor = background
+    document.body.style.backgroundColor = background
+    if (root) root.style.backgroundColor = background
+    themeMeta?.setAttribute('content', background)
+
+    return () => {
+      document.documentElement.style.backgroundColor = '#FFFFFF'
+      document.body.style.backgroundColor = '#FFFFFF'
+      if (root) root.style.backgroundColor = '#FFFFFF'
+      themeMeta?.setAttribute('content', '#FFFFFF')
+    }
+  }, [settings.colors.background])
+
+  useEffect(() => {
     function paginate() {
       const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
       const result = paginateContent(paragraphs, {

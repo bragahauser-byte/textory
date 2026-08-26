@@ -49,13 +49,6 @@ export function SettingsProvider({ children }) {
   const fontGroup = FONT_GROUPS[fontGroupName]
   const mode = READING_MODES[settings.readingMode] ?? READING_MODES.claro
 
-  useEffect(() => {
-    document.documentElement.style.backgroundColor = mode.background
-    document.body.style.backgroundColor = mode.background
-    document.getElementById('root').style.backgroundColor = mode.background
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode.background)
-  }, [mode])
-
   const value = useMemo(() => {
     const size = TEXT_SIZES[settings.textSize] ?? TEXT_SIZES[2]
     const baseLineHeight = size.lineHeight + (settings.lineSpacing - 1) * 4
