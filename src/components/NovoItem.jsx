@@ -131,8 +131,8 @@ const URL_ERROR_KEYS = {
   extraction_failed: 'urlExtractFailed',
 }
 
-function NovoItem({ initialText = '', onBack, onTransform }) {
-  const [text, setText] = useState(initialText)
+function NovoItem({ initialText = '', onBack, onTransform, onSettings, onTextChange }) {
+  const [text, setTextInternal] = useState(initialText)
   const [selectedFile, setSelectedFile] = useState(null)
   const [importedUrlLabel, setImportedUrlLabel] = useState('')
   const [linkOpen, setLinkOpen] = useState(false)
@@ -144,6 +144,11 @@ function NovoItem({ initialText = '', onBack, onTransform }) {
   const { t } = useLocale()
   const { direction } = useLocale()
   const hasContent = text.trim().length > 0
+
+  function setText(value) {
+    setTextInternal(value)
+    onTextChange?.(value)
+  }
 
   async function handleFileChange(event, type) {
     const file = event.target.files?.[0]
@@ -238,7 +243,7 @@ function NovoItem({ initialText = '', onBack, onTransform }) {
     <main className="relative flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
       <ScreenHeader
         left={<IconButton icon={<ArrowLeft className={direction === 'rtl' ? 'icon-mirror' : ''} size={24} strokeWidth={2.5} aria-hidden="true" />} label={t('newItem.back')} onClick={onBack} />}
-        right={<IconButton icon={<Settings size={24} strokeWidth={2.5} aria-hidden="true" />} label={t('newItem.settings')} />}
+        right={<IconButton icon={<Settings size={24} strokeWidth={2.5} aria-hidden="true" />} label={t('newItem.settings')} onClick={onSettings} />}
         title={t('newItem.title')}
         subtitle={t('newItem.subtitle')}
         subtitleClassName="max-w-[470px]"
