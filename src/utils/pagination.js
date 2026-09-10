@@ -7,7 +7,7 @@ export function paginateContent(content, { title = '', fontFamily, fontSize, lin
   const paragraphs = normalizeContent(content)
   if (typeof document === 'undefined') return [paragraphs.map((_, index) => index)]
   const measure = document.createElement('div')
-  measure.style.cssText = `position:absolute;left:-99999px;width:${width ?? Math.max(window.innerWidth - 64, 1)}px;visibility:hidden;`
+  measure.style.cssText = `position:absolute;inset-inline-start:-99999px;width:${width ?? Math.max(window.innerWidth - 64, 1)}px;visibility:hidden;`
   const style = `font-family:${fontFamily};font-size:${fontSize}px;font-weight:500;line-height:${lineHeight}px;letter-spacing:${letterSpacing};`
   if (title) {
     const titleNode = document.createElement('h1')

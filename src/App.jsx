@@ -85,7 +85,7 @@ function AppContent() {
 		return <ScreenTransition screen={screen}>
 			<ItemPronto
 				title={activeReading?.title ?? t('itemReady.defaultTitle')}
-				subtitle={`${activeReading?.duration ?? `1 ${t('common.minute')}`} · ${activeReading?.sections ?? 1} ${activeReading?.sections === 1 ? t('home.sectionOne') : t('home.sectionMany')}`}
+				subtitle={<><bdi dir="ltr">{activeReading?.duration ?? `1 ${t('common.minute')}`}</bdi> · <bdi dir="ltr">{activeReading?.sections ?? 1}</bdi> {activeReading?.sections === 1 ? t('home.sectionOne') : t('home.sectionMany')}</>}
 				onClose={() => setScreen('home')}
 				onDelete={() => deleteReading(activeReading?.id)}
 				onEdit={() => { setEditingReading(activeReading); setDraftText(normalizeContent(activeReading?.content).join('\n\n')); setScreen('novo-item') }}

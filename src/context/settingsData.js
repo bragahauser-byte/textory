@@ -28,20 +28,20 @@ export const FONT_GROUPS = {
   },
   chines: {
     styles: ['sans', 'serif'],
-    fonts: { sans: '"Noto Sans SC", sans-serif', serif: '"Noto Serif SC", serif' },
-    lineHeightMultiplier: 1.45,
+    fonts: { sans: '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif', serif: '"Noto Serif SC", "Songti SC", serif' },
+    lineHeightMultiplier: 1.75,
     letterSpacing: '0.03em',
   },
   japones: {
     styles: ['sans', 'serif'],
-    fonts: { sans: '"Noto Sans JP", sans-serif', serif: '"Noto Serif JP", serif' },
-    lineHeightMultiplier: 1.45,
+    fonts: { sans: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif', serif: '"Noto Serif JP", "Hiragino Mincho ProN", serif' },
+    lineHeightMultiplier: 1.75,
     letterSpacing: '0.03em',
   },
   coreano: {
     styles: ['sans', 'serif'],
-    fonts: { sans: '"Noto Sans KR", sans-serif', serif: '"Noto Serif KR", serif' },
-    lineHeightMultiplier: 1.45,
+    fonts: { sans: '"Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif', serif: '"Noto Serif KR", "Apple SD Gothic Neo", serif' },
+    lineHeightMultiplier: 1.75,
     letterSpacing: '0.03em',
   },
 }

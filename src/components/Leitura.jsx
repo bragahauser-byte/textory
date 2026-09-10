@@ -96,7 +96,7 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
       </div>
 
       <span className={`page-indicator logical-end-4 absolute top-[var(--safe-top)] leading-none ${controlsVisible ? 'is-hidden' : ''}`} style={{ color: settings.colors.secondary }}>
-        {String(page + 1).padStart(2, '0')}
+        <bdi dir="ltr">{String(page + 1).padStart(2, '0')}</bdi>
       </span>
 
       <div className={`controls-transition absolute inset-x-0 top-[var(--safe-top)] flex items-center justify-between px-4 ${controlsVisible ? 'translate-y-0 opacity-100' : 'is-hidden pointer-events-none -translate-y-2 opacity-0'}`}>

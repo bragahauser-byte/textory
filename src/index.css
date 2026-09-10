@@ -60,6 +60,11 @@
   --slider-knob: #ffffff;
 }
 
+:root[lang^='zh'] { font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+:root[lang='ja'] { font-family: 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', sans-serif; }
+:root[lang='ko'] { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; }
+:root[lang^='zh'], :root[lang='ja'], :root[lang='ko'] { font-style: normal; }
+
 body {
   margin: 0;
   min-width: 320px;
@@ -80,8 +85,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   overflow: hidden;
-  padding-left: var(--spacing-x);
-  padding-right: var(--spacing-x);
+  padding-inline: var(--spacing-x);
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
 }

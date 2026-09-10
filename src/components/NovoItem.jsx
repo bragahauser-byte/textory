@@ -261,7 +261,7 @@ function NovoItem({ initialText = '', onBack, onTransform, onSettings, onTextCha
         </div>
 
         {linkOpen && (
-          <form onSubmit={handleUrlImport} className="mt-3 flex items-center gap-2 rounded-2xl border border-[var(--color-border)] p-2 pl-4">
+          <form onSubmit={handleUrlImport} className="mt-3 flex items-center gap-2 rounded-2xl border border-[var(--color-border)] p-2 ps-4">
             <input
               type="url"
               inputMode="url"
