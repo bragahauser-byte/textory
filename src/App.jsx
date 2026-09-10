@@ -11,6 +11,7 @@ import Leitura from './components/Leitura.jsx'
 import Loading from './components/Loading.jsx'
 import NovoItem from './components/NovoItem.jsx'
 import { SettingsProvider } from './context/SettingsContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 import { LibraryProvider } from './context/LibraryContext.jsx'
 import { useLibrary } from './context/useLibrary.js'
 import { useSettings } from './context/useSettings.js'
@@ -120,7 +121,7 @@ function ScreenTransition({ screen, children }) {
 }
 
 function App() {
-	return <SettingsProvider><LocaleProvider><LibraryProvider><AppContent /></LibraryProvider></LocaleProvider></SettingsProvider>
+	return <ThemeProvider><SettingsProvider><LocaleProvider><LibraryProvider><AppContent /></LibraryProvider></LocaleProvider></SettingsProvider></ThemeProvider>
 }
 
 export default App

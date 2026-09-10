@@ -7,7 +7,7 @@ const languages = [['portugues', '🇧🇷'], ['ingles', '🇺🇸'], ['espanhol
 function Idioma({ onBack }) {
   const { language, updateSetting } = useSettings()
   const { t } = useLocale()
-  return <main className="bg-white text-[#202020]"><SettingsHeader title={t('settings.language')} onBack={onBack} /><div className="screen-header-gap">{languages.map(([key, flag]) => <OptionRow key={key} selected={language === key} onClick={() => updateSetting('language', key)}>{flag} {t(`settings.languages.${key}`)}</OptionRow>)}</div></main>
+  return <main className="bg-[var(--color-bg)] text-[var(--color-text)]"><SettingsHeader title={t('settings.language')} onBack={onBack} /><div className="screen-header-gap">{languages.map(([key, flag]) => <OptionRow key={key} selected={language === key} onClick={() => updateSetting('language', key)}>{flag} {t(`settings.languages.${key}`)}</OptionRow>)}</div></main>
 }
 
 export default Idioma

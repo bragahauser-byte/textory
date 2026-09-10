@@ -4,10 +4,12 @@ import { useSettings } from '../context/useSettings.js'
 import { normalizeContent, paginateContent } from '../utils/pagination.js'
 import ConfirmDelete from './ConfirmDelete.jsx'
 import { useLocale } from '../context/useLocale.js'
+import { useTheme } from '../context/useTheme.js'
 
 function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageChange, onClose, onSettings, onDelete }) {
   const settings = useSettings()
   const { t } = useLocale()
+  const { isDark } = useTheme()
   const readingStyle = {
     fontFamily: settings.fontFamily,
     fontSize: `${settings.fontSize}px`,
@@ -32,12 +34,12 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
     themeMeta?.setAttribute('content', background)
 
     return () => {
-      document.documentElement.style.backgroundColor = '#FFFFFF'
-      document.body.style.backgroundColor = '#FFFFFF'
-      if (root) root.style.backgroundColor = '#FFFFFF'
-      themeMeta?.setAttribute('content', '#FFFFFF')
+      document.documentElement.style.backgroundColor = ''
+      document.body.style.backgroundColor = ''
+      if (root) root.style.backgroundColor = ''
+      themeMeta?.setAttribute('content', isDark ? '#101010' : '#FFFFFF')
     }
-  }, [settings.colors.background])
+  }, [settings.colors.background, isDark])
 
   useEffect(() => {
     function paginate() {
