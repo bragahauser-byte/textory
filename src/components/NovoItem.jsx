@@ -5,6 +5,8 @@ import mammoth from 'mammoth'
 import JSZip from 'jszip'
 import { useState } from 'react'
 import { useLocale } from '../context/useLocale.js'
+import ScreenHeader from './layout/ScreenHeader.jsx'
+import IconButton from './ui/IconButton.jsx'
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 GlobalWorkerOptions.workerSrc = pdfWorker
@@ -234,30 +236,15 @@ function NovoItem({ initialText = '', onBack, onTransform }) {
 
   return (
     <main className="relative flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
-      <header className="flex items-start justify-between">
-        <button
-          type="button"
-          aria-label={t('newItem.back')}
-          onClick={onBack}
-          className="top-control flex items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text)] transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-4 focus:ring-offset-[var(--color-bg)]"
-        >
-          <ArrowLeft className={direction === 'rtl' ? 'icon-mirror' : ''} size={24} strokeWidth={2.5} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          aria-label={t('newItem.settings')}
-          className="top-control flex items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text)] transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-4 focus:ring-offset-[var(--color-bg)]"
-        >
-          <Settings size={24} strokeWidth={2.5} aria-hidden="true" />
-        </button>
-      </header>
+      <ScreenHeader
+        left={<IconButton icon={<ArrowLeft className={direction === 'rtl' ? 'icon-mirror' : ''} size={24} strokeWidth={2.5} aria-hidden="true" />} label={t('newItem.back')} onClick={onBack} />}
+        right={<IconButton icon={<Settings size={24} strokeWidth={2.5} aria-hidden="true" />} label={t('newItem.settings')} />}
+        title={t('newItem.title')}
+        subtitle={t('newItem.subtitle')}
+        subtitleClassName="max-w-[470px]"
+      />
 
-      <section className="screen-header-gap">
-        <h1 className="type-title m-0 font-bold leading-none">{t('newItem.title')}</h1>
-        <p className="type-subtitle title-subtitle-gap max-w-[470px] leading-[1.25] text-[var(--color-text-secondary)]">
-          {t('newItem.subtitle')}
-        </p>
-
+      <section>
         {isProcessing ? <div className="mt-8 flex h-[170px] items-center justify-center gap-3 rounded-2xl border border-[var(--color-border)] text-[16px] text-[var(--color-text-secondary)] sm:h-[190px]"><span className="file-spinner size-5 rounded-full border-2 border-[var(--color-border)] border-t-[var(--color-accent)]" aria-hidden="true" />{linkOpen || importedUrlLabel ? t('newItem.urlLoading') : t('newItem.loading')}</div> : <textarea value={text} onChange={handleTextChange} placeholder={t('newItem.placeholder')} className="mt-8 h-[170px] w-full resize-none rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg)] p-4 text-[16px] text-[var(--color-text)] outline-none placeholder:text-[var(--color-placeholder)] focus:border-[var(--color-text)] sm:h-[190px]" />}
 
         <div className="mt-6 grid grid-cols-3 gap-3">

@@ -1,5 +1,7 @@
 import { ChevronRight, Plus, Settings } from 'lucide-react'
 import { useLocale } from '../context/useLocale.js'
+import ScreenHeader from './layout/ScreenHeader.jsx'
+import IconButton from './ui/IconButton.jsx'
 
 function Home({ items = [], onSettings, onAdd, onSelectReading }) {
   const hasItems = items.length > 0
@@ -7,25 +9,11 @@ function Home({ items = [], onSettings, onAdd, onSelectReading }) {
 
   return (
     <main className="relative flex flex-col overflow-hidden bg-[var(--color-bg)] text-[var(--color-text)]">
-      <header className="flex items-start justify-between">
-        <div>
-          <h1 className="type-title m-0 font-bold leading-[1.05]">
-            {t('home.title')}
-          </h1>
-          <p className="type-subtitle title-subtitle-gap font-normal leading-none text-[var(--color-text-secondary)]">
-            {t('home.subtitle')}
-          </p>
-        </div>
-
-        <button
-          type="button"
-          aria-label={t('home.settings')}
-          onClick={onSettings}
-          className="top-control logical-end-4 fixed top-[var(--safe-top)] flex shrink-0 items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text)] transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-4 focus:ring-offset-[var(--color-bg)]"
-        >
-          <Settings strokeWidth={2.5} size={24} aria-hidden="true" />
-        </button>
-      </header>
+      <ScreenHeader
+        right={<IconButton icon={<Settings strokeWidth={2.5} size={24} aria-hidden="true" />} label={t('home.settings')} onClick={onSettings} />}
+        title={t('home.title')}
+        subtitle={t('home.subtitle')}
+      />
 
       {hasItems && (
         <ul className="mt-12 flex-1 space-y-3 overflow-y-auto pr-0">

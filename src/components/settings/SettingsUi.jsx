@@ -1,13 +1,15 @@
 import { ArrowLeft, Check, ChevronRight } from 'lucide-react'
 import { useLocale } from '../../context/useLocale.js'
+import ScreenHeader from '../layout/ScreenHeader.jsx'
+import IconButton from '../ui/IconButton.jsx'
 
 export function BackButton({ onBack }) {
   const { t, direction } = useLocale()
-  return <button type="button" aria-label={t('settings.back')} onClick={onBack} className="top-control flex items-center justify-center rounded-full bg-[var(--color-surface)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-2 focus:ring-offset-[var(--color-bg)]"><ArrowLeft className={direction === 'rtl' ? 'icon-mirror' : ''} size={24} strokeWidth={2.2} /></button>
+  return <IconButton icon={<ArrowLeft className={direction === 'rtl' ? 'icon-mirror' : ''} size={24} strokeWidth={2.2} aria-hidden="true" />} label={t('settings.back')} onClick={onBack} />
 }
 
 export function SettingsHeader({ title, onBack }) {
-  return <><BackButton onBack={onBack} /><h1 className="type-title screen-header-gap m-0 font-bold leading-none">{title}</h1></>
+  return <ScreenHeader left={<BackButton onBack={onBack} />} title={title} />
 }
 
 export function OptionRow({ children, selected, onClick, preview }) {
@@ -29,9 +31,9 @@ export function SettingsToggleRow({ label, checked, onChange, switchLabel }) {
         aria-checked={checked}
         aria-label={switchLabel}
         onClick={() => onChange(!checked)}
-        className={`relative h-7 w-12 shrink-0 rounded-full transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-2 focus:ring-offset-[var(--color-bg)] ${checked ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-border-hover)]'}`}
+        className={`relative h-7 w-16 shrink-0 rounded-full p-[2px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-text)] focus:ring-offset-2 focus:ring-offset-[var(--color-bg)] ${checked ? 'bg-[#1A1A1A]' : 'bg-[#A3A3A3]'}`}
       >
-        <span className={`absolute top-1 size-5 rounded-full bg-[var(--color-thumb)] shadow-sm transition-transform duration-150 ${checked ? 'translate-x-6' : 'translate-x-1'}`} />
+        <span className={`block h-6 w-[39px] rounded-full bg-white shadow-sm transition-transform duration-200 ${checked ? 'translate-x-[21px]' : 'translate-x-0'}`} />
       </button>
     </div>
   )
