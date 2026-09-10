@@ -25,6 +25,9 @@
   --color-danger-surface: #fff4f4;
   --color-danger-text: #b42318;
   --color-overlay: rgba(0, 0, 0, 0.6);
+  --slider-track-fill: #171717;
+  --slider-track-empty: #bdbdbd;
+  --slider-knob: #ffffff;
 
   font-family: Arial, Helvetica, sans-serif;
   color: var(--color-text);
@@ -52,6 +55,9 @@
   --color-danger-surface: #2a1516;
   --color-danger-text: #ff8a80;
   --color-overlay: rgba(0, 0, 0, 0.7);
+  --slider-track-fill: #8a8a8a;
+  --slider-track-empty: #3d3d3d;
+  --slider-knob: #ffffff;
 }
 
 body {

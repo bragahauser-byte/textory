@@ -81,8 +81,8 @@ function Slider({ value, onChange, min = 0, max = 100, step = 1, steps, classNam
       }}
       className={`relative h-10 w-full touch-none cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-text)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-bg)] ${className}`}
     >
-      <span className="absolute left-0 right-0 top-1/2 h-2 -translate-y-1/2 rounded-full bg-[var(--color-border-hover)]" style={{ background: `linear-gradient(to right, var(--color-accent) ${visualPercentage}%, var(--color-border-hover) ${visualPercentage}%)` }} />
-      <span className={`absolute left-0 top-1/2 h-10 w-14 rounded-full bg-[var(--color-thumb)] shadow-[0_2px_8px_rgba(0,0,0,0.15)] ${dragging ? '' : 'transition-transform duration-120 ease-out'}`} style={{ transform: `translateX(${thumbX}px) translateY(-50%)` }} />
+      <span className="absolute left-0 right-0 top-1/2 h-2 -translate-y-1/2 rounded-full bg-[var(--slider-track-empty)]" style={{ background: `linear-gradient(to right, var(--slider-track-fill) ${visualPercentage}%, var(--slider-track-empty) ${visualPercentage}%)` }} />
+      <span className={`absolute left-0 top-1/2 h-10 w-14 rounded-full bg-[var(--slider-knob)] shadow-[0_2px_8px_rgba(0,0,0,0.15)] ${dragging ? '' : 'transition-transform duration-120 ease-out'}`} style={{ transform: `translateX(${thumbX}px) translateY(-50%)` }} />
     </div>
   )
 }
