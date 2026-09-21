@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/textory/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/textory/icon-16.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/textory/icon-192.png" />
+    <link rel="manifest" href="/textory/manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('meu-app-leitura-theme');
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+          if (theme === 'dark') {
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#101010');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700&family=Inter:wght@500&family=Literata:wght@500&family=Lora:wght@500&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+KR:wght@400;500&family=Noto+Sans+SC:wght@400;500&family=Noto+Serif+JP:wght@400;500&family=Noto+Serif+KR:wght@400;500&family=Noto+Serif+SC:wght@400;500&family=Source+Serif+4:wght@500&family=Tajawal:wght@400;700&display=swap" rel="stylesheet" />
+    <title>Textory</title>
+    <script type="module" crossorigin src="/textory/assets/index-KlJmAfWN.js"></script>
+    <link rel="stylesheet" crossorigin href="/textory/assets/index-msdsTU66.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="portal-root"></div>
+  </body>
+</html>
