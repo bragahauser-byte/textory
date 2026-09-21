@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "build:pages": "vite build --mode pages",
-    "deploy": "npm run build:pages && npx --yes gh-pages@6 -d dist --nojekyll"
+    "deploy": "npm run build:pages && node -e \"require('fs').copyFileSync('vercel.json','dist/vercel.json')\" && npx --yes gh-pages@6 -d dist --nojekyll -m \"Publica build no GitHub Pages\""
   },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
