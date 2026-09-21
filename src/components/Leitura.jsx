@@ -1,7 +1,7 @@
 import { Settings, Trash2, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSettings } from '../context/useSettings.js'
-import { normalizeContent, paginateContent } from '../utils/pagination.js'
+import { measureReadingFrame, normalizeContent, paginateContent } from '../utils/pagination.js'
 import ConfirmDelete from './ConfirmDelete.jsx'
 import { useLocale } from '../context/useLocale.js'
 import { useTheme } from '../context/useTheme.js'
@@ -16,6 +16,7 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
     fontWeight: 500,
     lineHeight: `${settings.lineHeight}px`,
     letterSpacing: settings.letterSpacing,
+    overflowWrap: 'break-word',
   }
   const rtl = isRTL || settings.language === 'arabe'
   const paragraphs = useMemo(() => normalizeContent(content), [content])
@@ -43,25 +44,36 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
 
   useEffect(() => {
     function paginate() {
-      const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
+      // Área útil real do texto (topo, laterais e margem inferior mínima já descontados).
+      const { width, height } = measureReadingFrame()
       const result = paginateContent(paragraphs, {
         title,
         fontFamily: settings.fontFamily,
         fontSize: settings.fontSize,
         lineHeight: settings.lineHeight,
         letterSpacing: settings.letterSpacing,
-        width: window.innerWidth - 32,
-        contentTop: safeTop + 68,
+        width,
+        height,
+        dir: rtl ? 'rtl' : 'ltr',
       })
       setPages(result.length ? result : [[]])
       setPage((currentPage) => Math.min(currentPage, Math.max(result.length - 1, 0)))
     }
 
-    document.fonts?.ready.then(paginate)
+    // Refaz a paginação quando a fonte termina de carregar (as medidas mudam) e
+    // quando a área visível muda (girar a tela, barras do navegador).
+    const fonts = document.fonts
+    fonts?.ready.then(paginate)
+    fonts?.addEventListener?.('loadingdone', paginate)
     window.addEventListener('resize', paginate)
+    window.visualViewport?.addEventListener('resize', paginate)
     paginate()
-    return () => window.removeEventListener('resize', paginate)
-  }, [paragraphs, title, settings.fontFamily, settings.fontSize, settings.lineHeight, settings.letterSpacing])
+    return () => {
+      fonts?.removeEventListener?.('loadingdone', paginate)
+      window.removeEventListener('resize', paginate)
+      window.visualViewport?.removeEventListener('resize', paginate)
+    }
+  }, [paragraphs, title, rtl, settings.fontFamily, settings.fontSize, settings.lineHeight, settings.letterSpacing])
 
   function handleTap(event) {
     const position = event.clientX / window.innerWidth
@@ -89,8 +101,8 @@ function Leitura({ content, title, initialPageIndex = 0, isRTL = false, onPageCh
       <div key={page} className="page-crossfade chapter-content absolute inset-x-4" style={readingStyle}>
         {page === 0 && title && <h1 className="m-0 uppercase" style={{ ...readingStyle, color: settings.readingMode === 'escuro' ? '#FFFFFF' : '#1A1A1A' }}>{title}</h1>}
         <div className={page === 0 && title ? 'chapter-paragraph-gap' : ''}>
-          {currentPage.map((paragraphIndex) => (
-            <p key={`${page}-${paragraphIndex}`} className={`crossfade ${paragraphIndex !== currentPage[0] ? 'mt-6' : ''}`}>{paragraphs[paragraphIndex]}</p>
+          {currentPage.map((segment, position) => (
+            <p key={`${page}-${position}`} className={`crossfade ${position > 0 ? 'mt-6' : ''}`}>{segment.text}</p>
           ))}
         </div>
       </div>

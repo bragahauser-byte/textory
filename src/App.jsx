@@ -16,7 +16,7 @@ import { LibraryProvider } from './context/LibraryContext.jsx'
 import { useLibrary } from './context/useLibrary.js'
 import { useSettings } from './context/useSettings.js'
 import { useLocale } from './context/useLocale.js'
-import { normalizeContent, paginateContent } from './utils/pagination.js'
+import { loadReadingFont, measureReadingFrame, normalizeContent, paginateContent } from './utils/pagination.js'
 import { MOTION } from './utils/motion.js'
 import ScreenLayout from './components/layout/ScreenLayout.jsx'
 import { LocaleProvider } from './context/LocaleContext.jsx'
@@ -36,7 +36,7 @@ function AppContent() {
 	const [draftText, setDraftText] = useState('')
 	const [activeReading, setActiveReading] = useState(null)
 	const { readings, addReading, updateReading, updateLastPage, removeReading } = useLibrary()
-	const { fontFamily, fontSize, lineHeight, letterSpacing } = useSettings()
+	const { fontFamily, fontSize, lineHeight, letterSpacing, language } = useSettings()
 	const { t } = useLocale()
 
 	const getTitle = useCallback((content, file) => {
@@ -59,21 +59,28 @@ function AppContent() {
 	useEffect(() => {
 		if (screen !== 'loading') return undefined
 
-		const timer = setTimeout(() => {
+		let cancelled = false
+		const timer = setTimeout(async () => {
 			const reading = pendingReading ?? {}
 			const content = reading.text?.trim() ? reading.text : reading.file ? [t('newItem.importedContent', { name: reading.file.name })] : readingContent
 			const title = getTitle(content, reading.file)
 			const words = normalizeContent(content).join(' ').trim().split(/\s+/).filter(Boolean).length
-			const safeTop = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-top')) || 64
-			const sections = paginateContent(content, { title: t('reading.title'), fontFamily, fontSize, lineHeight, letterSpacing, width: window.innerWidth - 32, contentTop: safeTop + 68 }).length
+			// a contagem de seções precisa usar a mesma fonte do leitor, já carregada
+			await loadReadingFont(fontFamily, fontSize, normalizeContent(content).join(' '))
+			if (cancelled) return
+			const { width, height } = measureReadingFrame()
+			const sections = paginateContent(content, { title: t('reading.title'), fontFamily, fontSize, lineHeight, letterSpacing, width, height, dir: language === 'arabe' ? 'rtl' : 'ltr' }).length
 			const readingData = { title, duration: `${Math.max(1, Math.ceil(words / 238))} ${t('common.minute')}`, sections, content, lastPageIndex: 0 }
 			const savedReading = reading.id ? updateReading(reading.id, readingData) : addReading(readingData)
 			setActiveReading(savedReading)
 			setEditingReading(null)
 			setScreen('item-pronto')
 		}, 2000)
-		return () => clearTimeout(timer)
-	}, [screen, pendingReading, addReading, updateReading, getTitle, t, fontFamily, fontSize, lineHeight, letterSpacing])
+		return () => {
+			cancelled = true
+			clearTimeout(timer)
+		}
+	}, [screen, pendingReading, addReading, updateReading, getTitle, t, fontFamily, fontSize, lineHeight, letterSpacing, language])
 
 	if (screen === 'novo-item') {
 		return <ScreenTransition screen={screen}><NovoItem initialText={draftText} onTextChange={setDraftText} onBack={() => { setEditingReading(null); setScreen(editingReading ? 'item-pronto' : 'home') }} onTransform={(reading) => { setPendingReading({ ...reading, id: editingReading?.id }); setScreen('loading') }} onSettings={() => { setSettingsReturn('novo-item'); setScreen('configuracoes') }} /></ScreenTransition>

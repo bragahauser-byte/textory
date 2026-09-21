@@ -6,6 +6,11 @@
   --spacing-x: 16px;
   --safe-top: max(var(--spacing-top), env(safe-area-inset-top, 0px));
   --safe-bottom: max(var(--spacing-bottom), env(safe-area-inset-bottom, 0px));
+  /* Leitor: o texto termina, no mínimo, 36px acima da borda inferior (mais a área
+     segura do aparelho, para não ficar sobre a barra de gestos do iPhone). */
+  --spacing-reading-bottom: 36px;
+  --reading-top: calc(var(--safe-top) + 68px);
+  --reading-bottom: calc(var(--spacing-reading-bottom) + env(safe-area-inset-bottom, 0px));
 
   color-scheme: light;
   --color-bg: #ffffff;
@@ -98,7 +103,16 @@ body {
 .reading-preview { color: var(--color-text); }
 .card-subtitle-gap { margin-top: 4px; }
 .card-content { max-width: calc(100% - 120px); }
-.chapter-content { top: calc(var(--safe-top) + 68px); }
+.chapter-content { top: var(--reading-top); bottom: var(--reading-bottom); }
+/* Caixa invisível com as mesmas medidas do texto: é dela que a paginação lê a altura útil. */
+.reading-frame {
+  position: fixed;
+  top: var(--reading-top);
+  bottom: var(--reading-bottom);
+  inset-inline: var(--spacing-x);
+  visibility: hidden;
+  pointer-events: none;
+}
 .chapter-paragraph-gap { margin-top: 32px; }
 .type-title { font-size: 28px; }
 .type-subtitle { font-size: 16px; }
