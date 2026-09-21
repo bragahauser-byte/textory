@@ -122,7 +122,9 @@ export function paginateContent(content, {
   node.textContent = paragraphs.find(Boolean)?.slice(0, 48) || 'Hg'
   const glyphs = document.createRange()
   glyphs.selectNodeContents(node)
-  const overhang = Math.ceil(Math.max(0, (glyphs.getBoundingClientRect().height - lineBox) / 2))
+  // Uma caixa por linha: o retângulo total do trecho somaria várias linhas.
+  const glyphHeight = Math.max(0, ...Array.from(glyphs.getClientRects(), (rect) => rect.height))
+  const overhang = Math.ceil(Math.max(0, (glyphHeight - lineBox) / 2))
 
   const maxCharsPerLine = Math.ceil(frame.width / (Number(fontSize) * MIN_CHAR_EM)) + 1
   const TOLERANCE = 0.5
